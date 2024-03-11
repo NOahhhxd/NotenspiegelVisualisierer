@@ -260,7 +260,7 @@ def noten_(moduls):
 def checkPossibleFilenames():
     possibleFilenames = ["Otto-von-Guericke-Universität Magdeburg.htm", "Otto-von-Guericke-Universität Magdeburg.html"]
     for filename in possibleFilenames:
-        path = os.getcwd()+"\\"+filename
+        path = os.path.join(os.getcwd(), filename)
         if os.path.exists(path):
             return filename
     return None
