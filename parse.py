@@ -1,5 +1,6 @@
 import datetime
 import sys
+import platform
 
 from bs4 import BeautifulSoup
 import matplotlib.pyplot as plt
@@ -258,9 +259,14 @@ def noten_(moduls):
 
 
 def checkPossibleFilenames():
-    possibleFilenames = ["Otto-von-Guericke-Universität Magdeburg.htm", "Otto-von-Guericke-Universität Magdeburg.html"]
+    possibleFilenames = ["Otto-von-Guericke-Universität Magdeburg.html", "Otto-von-Guericke-Universität Magdeburg.htm"]
+
     for filename in possibleFilenames:
-        path = os.getcwd()+"\\"+filename
+        if platform.system() == "Windows":
+            path = os.getcwd()+"\\"+filename
+        if platform.system() == "Linux":
+            path = os.getcwd()+"/"+filename
+        
         if os.path.exists(path):
             return filename
     return None
