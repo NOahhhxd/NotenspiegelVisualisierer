@@ -318,8 +318,17 @@ if __name__ == '__main__':
 
     ### Rausfiltern der unrelevanten Daten
     rest = rest[3:-1]
+    modules = []
+    if platform.system() != "Darwin":
+        modules = list(filter(lambda x: not str(x).startswith("<tr><td"), rest))
+    else:
+        modules = list(filter(lambda x: not str(x).startswith("""<tr>
 
-    modules = list(filter(lambda x: not str(x).startswith("<tr><td"), rest))
+﻿
+
+
+
+	<td"""), rest))
     modules = list(map(lambda x: x.find_all("td"), modules))
     #           Modulname           Note              (nicht) bestanden     CP
     modules = [[i[1].text.strip(), i[3].text.strip(), i[4].text.strip(), i[5].text.strip()] for i in modules]
