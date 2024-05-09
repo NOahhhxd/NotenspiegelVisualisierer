@@ -290,29 +290,6 @@ if __name__ == '__main__':
     # print(rest)
     cp_and_mean = rest[2]
 
-    categories = []
-
-    for i, elem in enumerate(rest):
-        if platform.system() == "Darwin":
-            if str(elem).startswith("""<tr>
-<td"""):
-                if str(elem).startswith("""<tr>
-<td class="tabelle1_alignleft" valign="top">"""):
-                    categories.append(
-                        (i - 3, True, elem.find_all("td")[1].text.strip().replace("Ã¤", "ä").replace("Ã¼", "ü")))
-                else:
-                    categories.append(
-                        (i - 3, False, elem.find_all("td")[1].text.strip().replace("Ã¤", "ä").replace("Ã¼", "ü")))
-        else:
-            if str(elem).startswith("<tr><td"):
-                # print(str(elem))
-                if str(elem).startswith("""<tr><td align="left" class="qis_kontoOnTop" valign="top">"""):
-                    categories.append(
-                        (i - 3, True, elem.find_all("td")[1].text.strip().replace("Ã¤", "ä").replace("Ã¼", "ü")))
-                else:
-                    categories.append(
-                        (i - 3, False, elem.find_all("td")[1].text.strip().replace("Ã¤", "ä").replace("Ã¼", "ü")))
-
     ### Rausfiltern der unrelevanten Daten
     rest = rest[3:-1]
     modules = []
