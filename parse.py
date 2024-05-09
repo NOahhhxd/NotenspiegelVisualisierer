@@ -1,5 +1,6 @@
 import datetime
 import sys
+import platform
 
 from bs4 import BeautifulSoup
 import matplotlib.pyplot as plt
@@ -258,19 +259,20 @@ def noten_(moduls):
 
 
 def checkPossibleFilenames():
-    possibleFilenames = ["Otto-von-Guericke-Universität Magdeburg.htm", "Otto-von-Guericke-Universität Magdeburg.html"]
+    possibleFilenames = ["Otto-von-Guericke-Universität Magdeburg.html", "Otto-von-Guericke-Universität Magdeburg.htm"]
+
     for filename in possibleFilenames:
         path = os.path.join(os.getcwd(), filename)
         if os.path.exists(path):
             return filename
     return None
 
+
 if __name__ == '__main__':
     filename = checkPossibleFilenames()
     if not filename:
         print(
             "Bitte geh im LSF zu deinem Notenspiegel und drücke STRG+S und speichere es in dem Ordner mit dieser Datei:) (Nicht umbenennen)")
-        sys.exit()
 
     ### Einlesen der Datei
     soup = BeautifulSoup("\n".join(open(filename, encoding='utf-8-sig').readlines()), "html.parser")
@@ -291,14 +293,25 @@ if __name__ == '__main__':
     categories = []
 
     for i, elem in enumerate(rest):
-        if str(elem).startswith("<tr><td"):
-            # print(str(elem))
-            if str(elem).startswith("""<tr><td align="left" class="qis_kontoOnTop" valign="top">"""):
-                categories.append(
-                    (i - 3, True, elem.find_all("td")[1].text.strip().replace("Ã¤", "ä").replace("Ã¼", "ü")))
-            else:
-                categories.append(
-                    (i - 3, False, elem.find_all("td")[1].text.strip().replace("Ã¤", "ä").replace("Ã¼", "ü")))
+        if platform.system() == "Darwin":
+            if str(elem).startswith("""<tr>
+<td"""):
+                if str(elem).startswith("""<tr>
+<td class="tabelle1_alignleft" valign="top">"""):
+                    categories.append(
+                        (i - 3, True, elem.find_all("td")[1].text.strip().replace("Ã¤", "ä").replace("Ã¼", "ü")))
+                else:
+                    categories.append(
+                        (i - 3, False, elem.find_all("td")[1].text.strip().replace("Ã¤", "ä").replace("Ã¼", "ü")))
+        else:
+            if str(elem).startswith("<tr><td"):
+                # print(str(elem))
+                if str(elem).startswith("""<tr><td align="left" class="qis_kontoOnTop" valign="top">"""):
+                    categories.append(
+                        (i - 3, True, elem.find_all("td")[1].text.strip().replace("Ã¤", "ä").replace("Ã¼", "ü")))
+                else:
+                    categories.append(
+                        (i - 3, False, elem.find_all("td")[1].text.strip().replace("Ã¤", "ä").replace("Ã¼", "ü")))
 
     ### Rausfiltern der unrelevanten Daten
     rest = rest[3:-1]
