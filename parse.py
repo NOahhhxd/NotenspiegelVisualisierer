@@ -273,7 +273,7 @@ if __name__ == '__main__':
         sys.exit()
 
     ### Einlesen der Datei
-    soup = BeautifulSoup("\n".join(open(filename).readlines()), "html.parser")
+    soup = BeautifulSoup("\n".join(open(filename, encoding='utf-8-sig').readlines()), "html.parser")
 
     ### Parsen der grundlegenden Daten
     stammdaten = soup.find_all("table")[0]
@@ -285,6 +285,7 @@ if __name__ == '__main__':
     # print(metaData.text)
 
     rest = data.findAll("tr")
+    # print(rest)
     cp_and_mean = rest[2]
 
     categories = []
