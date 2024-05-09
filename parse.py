@@ -262,11 +262,7 @@ def checkPossibleFilenames():
     possibleFilenames = ["Otto-von-Guericke-Universität Magdeburg.html", "Otto-von-Guericke-Universität Magdeburg.htm"]
 
     for filename in possibleFilenames:
-        if platform.system() == "Windows":
-            path = os.getcwd() + "\\" + filename
-        else:  # if platform.system() == "Linux":
-            path = os.getcwd() + "/" + filename
-
+        path = os.path.join(os.getcwd(), filename)
         if os.path.exists(path):
             return filename
     return None
@@ -291,6 +287,7 @@ if __name__ == '__main__':
     # print(metaData.text)
 
     rest = data.findAll("tr")
+    # print(rest)
     cp_and_mean = rest[2]
 
     categories = []
