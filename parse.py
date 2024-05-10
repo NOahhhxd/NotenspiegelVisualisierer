@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 import matplotlib.pyplot as plt
 import os
 
+import guiscript
+
 HELP_TEXT = """Um Elemente auszuwählen gibt es folgende Möglichkeiten:
 1. Nummer (steht vor dem Modul) eingeben: 1
 2. Nummern mehrerer Module eingeben: [1,3,7]
@@ -53,7 +55,7 @@ halbeCPModule = [
 ]
 
 
-def plotModule(modules, name=None):
+def plotModule(modules, name=None, type_="-1"):
     modules_sorted = sorted(modules, key=lambda x: float(x[1].replace(",", ".") if x[1][0].isdigit() else 1000))
 
     belegung: dict[str, int] = {}
@@ -69,10 +71,11 @@ def plotModule(modules, name=None):
               belegung.keys()]
 
     vals = [int(i) for i in belegung.values()]
-    print("""Welchen Diagrammtyp willst du haben? 
+    if type_ != "-1":
+        print("""Welchen Diagrammtyp willst du haben? 
 Kuchendiagramm(default) => 0
 Balkendiagramm          => 1""")
-    type_ = input()
+        type_ = input()
     if type_ == "1":
         plt.figure(figsize=(8, 18))
         plt.bar(labels, vals)
@@ -339,4 +342,5 @@ if __name__ == '__main__':
     """
 
     ### Beispiel zum Plotten ausgewählter Module
-    plotModule(chooseFromModules(modules))
+    # plotModule(chooseFromModules(modules))
+    plotModule(guiscript.visualize(modules))
