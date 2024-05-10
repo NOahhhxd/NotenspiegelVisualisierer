@@ -71,7 +71,7 @@ def plotModule(modules, name=None, type_="-1"):
               belegung.keys()]
 
     vals = [int(i) for i in belegung.values()]
-    if type_ != "-1":
+    if type_ == "-1":
         print("""Welchen Diagrammtyp willst du haben? 
 Kuchendiagramm(default) => 0
 Balkendiagramm          => 1""")
