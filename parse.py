@@ -55,7 +55,7 @@ halbeCPModule = [
 ]
 
 
-def plotModule(modules, name=None, type_="-1"):
+def plotModule(modules, name=None, headless=False, type_="-1"):
     modules_sorted = sorted(modules, key=lambda x: float(x[1].replace(",", ".") if x[1][0].isdigit() else 1000))
 
     belegung: dict[str, int] = {}
@@ -71,11 +71,12 @@ def plotModule(modules, name=None, type_="-1"):
               belegung.keys()]
 
     vals = [int(i) for i in belegung.values()]
-    if type_ == "-1":
-        print("""Welchen Diagrammtyp willst du haben? 
+    if not headless:
+        if type_ == "-1":
+            print("""Welchen Diagrammtyp willst du haben? 
 Kuchendiagramm(default) => 0
 Balkendiagramm          => 1""")
-        type_ = input()
+            type_ = input()
     if type_ == "1":
         plt.figure(figsize=(8, 18))
         plt.bar(labels, vals)
@@ -88,15 +89,18 @@ Balkendiagramm          => 1""")
 
     fig_copy = plt.gcf()
 
-    plt.show()
-    print("Möchtest du das Bild speichern? [y|n]")
-    if input().startswith("y"):
-        title = input("Welchen Namen soll das Bild haben? (default: dein Name)\n")
-        if title:
-            fig_copy.savefig(f"{title}.png")
-        else:
-            fig_copy.savefig(f"{name if name else datetime.datetime.now().second}.png")
-        print("gespeichert:)")
+    if not headless:
+        plt.show()
+        print("Möchtest du das Bild speichern? [y|n]")
+        if input().startswith("y"):
+            title = input("Welchen Namen soll das Bild haben? (default: dein Name)\n")
+            if title:
+                fig_copy.savefig(f"{title}.png")
+            else:
+                fig_copy.savefig(f"{name if name else datetime.datetime.now().second}.png")
+            print("gespeichert:)")
+    else:
+        return fig_copy
 
 
 def chooseFromModules(modules, withCommandLine=True, nums=None, rec=False):
@@ -343,4 +347,5 @@ if __name__ == '__main__':
 
     ### Beispiel zum Plotten ausgewählter Module
     # plotModule(chooseFromModules(modules))
-    plotModule(guiscript.visualize(modules))
+    # plotModule(guiscript.visualize(modules))
+    guiscript.visualize(modules, False)
