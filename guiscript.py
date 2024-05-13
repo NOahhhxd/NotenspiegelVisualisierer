@@ -21,7 +21,7 @@ def generateImage():
     global img
     parse.plotModule(returnValues, headless=True).savefig("tmp.png")
     returnValues.clear()
-    img = ImageTk.PhotoImage(Image.open("tmp.png").resize((500, 500), Image.ANTIALIAS))
+    img = ImageTk.PhotoImage(Image.open("tmp.png").resize((500, 500), Image.LANCZOS))
     tk.Label(root, image=img).grid(row=0,column=2, rowspan=len(checkBtns), sticky=tk.NS)
 
 

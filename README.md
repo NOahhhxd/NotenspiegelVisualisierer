@@ -14,6 +14,11 @@ python -m venv venv
 pip install -r reqirements.txt
 ```
 
+Zusätlich sollte man auch noch tinker installiert haben. Für Mac nutzer bedeutet das
+```terminal
+brew install python-tk
+``` 
+
 # Ablauf
 1. im LSF zu Notenspiegelübersicht gehen
 2. STRG+S drücken und im Ordner des Scripts speichern

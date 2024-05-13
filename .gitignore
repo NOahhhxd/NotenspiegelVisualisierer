@@ -6,3 +6,4 @@ Otto-von-Guericke-Universität Magdeburg-Dateien/
 AUD-Dateien/
 venv/
 .DS_Store
+__pycache__
